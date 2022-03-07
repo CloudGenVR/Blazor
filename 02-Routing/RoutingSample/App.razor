@@ -1,0 +1,22 @@
+﻿<Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="OnNavigate">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code{
+    public void OnNavigate(NavigationContext ctx)
+    {
+        if(ctx.Path == "/non-mi-piace")
+        {
+            ctx.CancellationToken.ThrowIfCancellationRequested();
+        }
+    }
+}

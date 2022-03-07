@@ -1,0 +1,43 @@
+﻿@page "/param/"
+@using Microsoft.AspNetCore.Components.Routing
+@inject NavigationManager navigate;
+
+<Navigating>
+    Sto aspettando la pagina
+</Navigating>
+
+<h1>ParametriComponent</h1>
+
+<br />
+
+@(QueryStringParameter)
+
+<button @onclick="Naviga">Premi</button>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "my-var")]
+    public string QueryStringParameter { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        Console.WriteLine("parametro arrivato");
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+
+    public void Naviga()
+    {
+        navigate.NavigateTo("/first");
+    }
+}

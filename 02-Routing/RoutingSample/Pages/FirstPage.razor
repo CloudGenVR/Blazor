@@ -1,0 +1,11 @@
+﻿@page "/first/{*CatchAll}"
+
+<h1>FirstPage</h1>
+
+<br />
+@(CatchAll)
+
+@code {
+    [Parameter]
+    public string CatchAll { get; set; }
+}
