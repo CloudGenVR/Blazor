@@ -1,0 +1,18 @@
+﻿@page "/dashboard"
+
+@foreach(var panel in Config.Panels)
+{
+    <h1>@panel.Title</h1>
+    <br />
+    <DynamicComponent Type="@panel.Component"></DynamicComponent>
+}
+
+@code {
+    public DashboardConfig Config { get; set; } = new DashboardConfig()
+    {
+        Panels = new [] {
+            new Panel() { Title = "Arancione", Component = typeof(PannelloArancione) },
+            new Panel() { Title = "Blu", Component = Type.GetType($"BlazorComponents.Components.PannelloBlu")! }
+        }.ToList()
+    };
+}

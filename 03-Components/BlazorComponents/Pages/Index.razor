@@ -1,0 +1,29 @@
+﻿@page "/"
+
+
+<h5>Colore verde</h5>
+
+
+@*<FirstComponent ValueString="@Value" Utente="Utente"></FirstComponent>
+
+<FirstComponent ValueString="@Value" Utente="Utente"></FirstComponent>
+
+<FirstComponent ValueString="@Value" Utente="Utente"></FirstComponent>
+
+<br />
+<button @onclick="CambioValore">Cambio Valore</button>
+
+@code{
+    public string Value { get; set; } = "Prova";
+    public User Utente = new User() { Name = "Andrea", Email = "prova@prova.it" };
+    public void CambioValore()
+    {
+        Value = "Due";
+    }
+}*@
+
+
+<Component1></Component1>
+
+
+<Component1></Component1>
