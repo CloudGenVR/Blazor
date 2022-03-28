@@ -1,0 +1,70 @@
+﻿@page "/interop"
+@inject IJSRuntime jsRuntime
+@inject ServiceSample Service
+
+<button @onclick="EseguiJs">Esegui JS</button>
+<button @onclick="EseguiReturnJs">Esegui Return Value JS</button>
+<br />
+
+<button @onclick="EseguiFunzioneChiamandoNET">Esegui Return Value JS</button>
+<br />
+<button @onclick="EseguiFunzioneChiamandoNET2">Esegui Return Value JS 2</button>
+<br />
+
+<span>@Risultato?.MyValue</span>
+
+<br />
+
+<span>@Service.ValoreDaCambiare</span>
+
+@code {
+    public MyResult Risultato { get; set; } = new MyResult();
+    public string ValoreDaCambiare { get; set; } = "Init";
+
+    public async Task EseguiJs()
+    {
+        string mioParametro = "valore dal codice .NET";
+        await jsRuntime.InvokeVoidAsync("functionParameter", mioParametro);
+    }
+
+    public async Task EseguiReturnJs()
+    {
+        var myParameter = new {
+            Value1 = "MioValore",
+            ValueInt = 2
+        };
+
+        Risultato = await jsRuntime.InvokeAsync<MyResult>("functionReturnParameter", myParameter);
+    }
+
+    public async Task EseguiFunzioneChiamandoNET()
+    {
+        await jsRuntime.InvokeVoidAsync("functionCallNET");
+    }
+
+    [JSInvokable]
+    public static async Task<string> CambiaValore(string nuovoValore)
+    {
+        return nuovoValore + DateTime.UtcNow.ToShortDateString();
+    }
+
+
+    public async Task EseguiFunzioneChiamandoNET2()
+    {
+        var objRef = DotNetObjectReference.Create(Service);
+        await jsRuntime.InvokeVoidAsync("functionCallNET2", objRef);
+    }
+
+    //[JSInvokable]
+    //public async Task CambiaValoreAllaUI(string nuovoValore)
+    //{
+    //    ValoreDaCambiare = nuovoValore;
+    //    StateHasChanged();
+    //}
+
+
+    public class MyResult
+    {
+        public string MyValue { get; set; } = "";
+    }
+}

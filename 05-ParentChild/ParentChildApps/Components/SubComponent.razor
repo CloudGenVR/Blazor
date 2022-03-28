@@ -1,0 +1,26 @@
+﻿<h3>SubComponent</h3>
+
+<div style="background-color:@Color">
+    Il mio colore @Color
+</div>
+
+@code {
+    [Parameter]
+    public string Color { get; set; } = ""!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+    }
+
+    protected override bool ShouldRender()
+    {
+        return base.ShouldRender();
+    }
+}

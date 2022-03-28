@@ -1,0 +1,31 @@
+﻿@inject IStore store
+
+
+<h3>Parent</h3>
+
+<CascadingValue Value="myCascadeValueRed" TValue="MyCascadeValue" Name="External">
+    <CascadingValue Value="myCascadeValue" TValue="MyCascadeValue" Name="Internal">
+        <Child StoreValue="@(store.MyValue)"></Child>
+    </CascadingValue>
+</CascadingValue>
+
+<CascadingValue Value="myCascadeValueBlue" TValue="MyCascadeValue" Name="External">
+    <CascadingValue Value="myCascadeValue" TValue="MyCascadeValue" Name="Internal">
+        <Child StoreValue="@(store.MyValue)"></Child>
+    </CascadingValue>
+</CascadingValue>
+
+
+<StoreComponent></StoreComponent>
+
+
+@code {
+    private MyCascadeValue myCascadeValue = new MyCascadeValue(){ ColorValue = "Grey" };
+    private MyCascadeValue myCascadeValueBlue = new MyCascadeValue(){ ColorValue = "Blue" };
+    private MyCascadeValue myCascadeValueRed = new MyCascadeValue(){ ColorValue = "Red" };
+
+    protected override void OnInitialized()
+    {
+        store.MyValue = "Acqua";
+    }
+}

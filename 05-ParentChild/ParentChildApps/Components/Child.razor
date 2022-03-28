@@ -1,0 +1,59 @@
+﻿@inject IStore store
+<h3>Child</h3>
+
+<div style="background-color:@ParentColor.ColorValue">
+    Il mio colore @ParentColor
+
+    Il mio second: @SecondParameter.ColorValue
+</div>
+
+
+STORE: @StoreValue --> @(store.MyValue)
+
+<SubComponent Color="@ColorSub"></SubComponent>
+
+<button @onclick="Refresh">Refresh</button>
+<button @onclick="NotRender">Not Render</button>
+
+@code {
+    //[Parameter]
+    //public string Color { get; set; } = ""!;
+
+    [CascadingParameter(Name ="Internal")]
+    public MyCascadeValue ParentColor { get; set; }
+
+    [CascadingParameter(Name ="External")]
+    public MyCascadeValue SecondParameter { get; set; }
+
+    [Parameter]
+    public string StoreValue { get; set; }
+
+
+    [Parameter]
+    public string ColorSub { get; set; } = "Yellow"!;
+
+    private bool MustRender { get; set; } = true;
+
+    protected override bool ShouldRender()
+    {
+        return MustRender;
+    }
+
+    public void Refresh()
+    {
+        MustRender = true;
+        ColorGreen();
+    }
+
+    public void NotRender()
+    {
+        MustRender = false;
+        ColorGreen();
+    }
+
+    public void ColorGreen()
+    {
+        ParentColor.ColorValue = "Green";
+        ColorSub = "Orange";
+    }
+}
