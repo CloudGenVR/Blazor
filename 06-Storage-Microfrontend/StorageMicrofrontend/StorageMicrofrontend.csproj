@@ -10,5 +10,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.3" PrivateAssets="all" />
   </ItemGroup>
-
+  
+	<ItemGroup>
+		<BlazorWebAssemblyLazyLoad Include="Reciclo.dll" />
+	</ItemGroup>
+  
+	<ItemGroup>
+	  <ProjectReference Include="..\Reciclo\Reciclo.csproj" />
+	</ItemGroup>
 </Project>

@@ -19,8 +19,4 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-	<ItemGroup>
-		<BlazorWebAssemblyLazyLoad Include="Reciclo.dll" />
-	</ItemGroup>
-
 </Project>

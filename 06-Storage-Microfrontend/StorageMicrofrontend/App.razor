@@ -3,7 +3,7 @@
 @inject LazyAssemblyLoader AssemblyLoader
 
 <Router AppAssembly="@typeof(App).Assembly" 
-    AdditionalAssemblies="@loadingAssemby" 
+    AdditionalAssemblies="@LoadingAssemby" 
     OnNavigateAsync="@NavigateAsync">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
@@ -18,18 +18,17 @@
 </Router>
 
 @code{
-    private List<Assembly> loadingAssemby { get; set; } = new List<Assembly>();
+    public List<Assembly> LoadingAssemby = new();
 
-    public async Task NavigateAsync(NavigationContext ng)
+    public async Task NavigateAsync(NavigationContext args)
     {
         try
         {
-            //if(ng.Path == "{PATH}")
-            //{
+            if(args.Path.StartsWith("reciclo"))
+            {
                 var assemblies = await AssemblyLoader.LoadAssembliesAsync(new[] { "Reciclo.dll" });
-
-                loadingAssemby.AddRange(assemblies);
-            //}
+                LoadingAssemby.AddRange(assemblies);
+            }
         }
         catch(Exception ex)
         {
