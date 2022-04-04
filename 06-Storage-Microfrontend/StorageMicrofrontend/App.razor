@@ -1,0 +1,39 @@
+﻿@using System.Reflection
+@using Microsoft.AspNetCore.Components.WebAssembly.Services
+@inject LazyAssemblyLoader AssemblyLoader
+
+<Router AppAssembly="@typeof(App).Assembly" 
+    AdditionalAssemblies="@loadingAssemby" 
+    OnNavigateAsync="@NavigateAsync">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code{
+    private List<Assembly> loadingAssemby { get; set; } = new List<Assembly>();
+
+    public async Task NavigateAsync(NavigationContext ng)
+    {
+        try
+        {
+            //if(ng.Path == "{PATH}")
+            //{
+                var assemblies = await AssemblyLoader.LoadAssembliesAsync(new[] { "Reciclo.dll" });
+
+                loadingAssemby.AddRange(assemblies);
+            //}
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
