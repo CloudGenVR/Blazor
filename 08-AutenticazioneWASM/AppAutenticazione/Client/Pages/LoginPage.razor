@@ -1,0 +1,30 @@
+﻿@page "/account/login"
+@using AppAutenticazione.Client.Authentications.Abstractions
+@using AppAutenticazione.Shared
+@inject IAuthenticationService authenticationService
+@inject NavigationManager navigation
+
+<EditForm Model="Model">
+    <DataAnnotationsValidator />
+    <ValidationSummary/> 
+
+    <InputText id="mail" @bind-Value="Model.Email" DisplayName="Email"></InputText>
+    <InputText type="password" id="password" @bind-Value="Model.Password" DisplayName="Password"></InputText>
+
+    <button type="submit" @onclick="Submit">Login</button>
+</EditForm>
+
+
+
+@code {
+    public LoginViewModel Model { get; set; } = new LoginViewModel();
+
+    public async Task Submit()
+    {
+        var result = await authenticationService.Login(Model);
+        if (result.IsSuccess)
+        {
+            navigation.NavigateTo("fetchdata");
+        }
+    }
+}

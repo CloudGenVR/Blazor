@@ -1,5 +1,5 @@
-﻿using AppAutenticazione.Server.Models;
-using AppAutenticazione.Server.Services;
+﻿using AppAutenticazione.Server.Services;
+using AppAutenticazione.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

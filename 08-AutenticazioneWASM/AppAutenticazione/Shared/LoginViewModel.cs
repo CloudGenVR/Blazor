@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AppAutenticazione.Server.Models
+namespace AppAutenticazione.Shared
 {
     public class LoginViewModel
     {

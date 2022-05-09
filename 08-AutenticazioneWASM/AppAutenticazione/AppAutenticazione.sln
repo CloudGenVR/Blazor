@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppAutenticazione.Server", "Server\AppAutenticazione.Server.csproj", "{F21B9FD5-A740-4ABC-971A-77AED5B388AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppAutenticazione.Server", "Server\AppAutenticazione.Server.csproj", "{F21B9FD5-A740-4ABC-971A-77AED5B388AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppAutenticazione.Client", "Client\AppAutenticazione.Client.csproj", "{DF4AC146-1894-4EA5-9888-25347ABB6743}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppAutenticazione.Client", "Client\AppAutenticazione.Client.csproj", "{DF4AC146-1894-4EA5-9888-25347ABB6743}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppAutenticazione.Shared", "Shared\AppAutenticazione.Shared.csproj", "{2035AD54-A3F7-4AE9-9742-029427D258B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppAutenticazione.Shared", "Shared\AppAutenticazione.Shared.csproj", "{2035AD54-A3F7-4AE9-9742-029427D258B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
