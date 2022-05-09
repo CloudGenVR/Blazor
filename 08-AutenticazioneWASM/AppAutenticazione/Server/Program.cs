@@ -59,6 +59,7 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseCors("AllowAllCors");
 
 app.UseAuthentication();
 app.UseAuthorization();
