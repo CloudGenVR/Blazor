@@ -39,7 +39,7 @@ namespace AppAutenticazione.Client.Authentications
 
         public async Task<LoginUserResponseViewModel> Login(LoginViewModel model)
         {
-            var response = await client.PostAsJsonAsync<LoginViewModel>("account/login", model);
+            var response = await client.PostAsJsonAsync<LoginViewModel>("api/account/login", model);
             var r = await response.Content.ReadAsStringAsync();
             Console.WriteLine(r);
             if (response.IsSuccessStatusCode)

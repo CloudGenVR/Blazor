@@ -1,3 +1,4 @@
+using AppAutenticazione.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.IdentityModel.Tokens;
@@ -29,6 +30,15 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecurityKey"]))
     };
 });
+
+builder.Services.AddCors(o => o.AddPolicy("AllowAllCors", builder =>
+{
+    builder.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+}));
+
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
