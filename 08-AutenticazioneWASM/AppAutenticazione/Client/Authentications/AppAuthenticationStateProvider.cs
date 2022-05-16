@@ -1,5 +1,6 @@
 ﻿using AppAutenticazione.Client.Authentications.Abstractions;
 using AppAutenticazione.Shared;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
@@ -14,23 +15,24 @@ namespace AppAutenticazione.Client.Authentications
         IAuthenticationService
     {
         private readonly HttpClient client;
+        private readonly ILocalStorageService localStorage;
+        private const string LoginKey = "LoginKey";
         private Task<AuthenticationState> _authenticationStateTask;
         private static AuthenticationState Anonymous => new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-        private string tokenCache;
 
-        public AppAuthenticationStateProvider(HttpClient client)
+        public AppAuthenticationStateProvider(HttpClient client, ILocalStorageService localStorage)
         {
             this.client = client;
+            this.localStorage = localStorage;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var token = tokenCache;
-            //var token = await _localStorage.GetItemAsync<string>(LoginKey);
+            var token = await localStorage.GetItemAsync<string>(LoginKey);
             if (!IsTokenValid(token))
             {
                 client.DefaultRequestHeaders.Authorization = null;
-            //    //await _localStorage.RemoveItemAsync(LoginKey);
+                await localStorage.RemoveItemAsync(LoginKey);
                 return Anonymous;
             }
             var authenticateState = BuildAuthenticationState(token);
@@ -40,15 +42,12 @@ namespace AppAutenticazione.Client.Authentications
         public async Task<LoginUserResponseViewModel> Login(LoginViewModel model)
         {
             var response = await client.PostAsJsonAsync<LoginViewModel>("account/login", model);
-            var r = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(r);
             if (response.IsSuccessStatusCode)
             {
                 var registerResponse = await response.Content.ReadFromJsonAsync<LoginUserResponseViewModel>();
                 if (registerResponse.IsSuccess)
                 {
-                    tokenCache = registerResponse.JwtToken;
-                    //await _localStorage.SetItemAsync(LoginKey, registerResponse.JwtToken);
+                    await localStorage.SetItemAsync(LoginKey, registerResponse.JwtToken);
                     var authenticationState = BuildAuthenticationState(registerResponse.JwtToken);
                     SetAuthenticationState(Task.FromResult(authenticationState));
                 }
