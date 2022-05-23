@@ -1,0 +1,58 @@
+﻿@page "/upload"
+@using System.Net.Http.Headers
+@inject HttpClient client
+
+<h3>UploadPage</h3>
+
+<InputFile OnChange="OnUploadAsync" ></InputFile>
+
+
+<InputFile OnChange="OnUploadChunkAsync" ></InputFile>
+
+@code {
+
+	async Task OnUploadAsync(InputFileChangeEventArgs e)
+	{
+		using (var multipartFormContent = new MultipartFormDataContent())
+		{
+			var fileStreamContent = PopulateStreamRequestContent(e.File.OpenReadStream(long.MaxValue), e.File.ContentType);
+			fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue(e.File.ContentType);
+
+			multipartFormContent.Add(fileStreamContent, name: "file", fileName: e.File.Name);
+
+			//Send it
+			var response = await client.PostAsync("/UploadFile/single", multipartFormContent);
+			response.EnsureSuccessStatusCode();
+			await response.Content.ReadAsStringAsync();
+		}
+	}
+
+	private HttpContent PopulateStreamRequestContent(Stream inputStream, string contentType)
+    {
+        return new PushStreamContent(async (outputStream, httpContext, transportContext) =>
+        {
+            byte[]? buffer = null;
+            var bytesRead = 0;
+
+            using (outputStream) //must close/dispose output stream to notify that content is done
+            {
+                buffer = new byte[checked((uint)Math.Min(1_220_000, (int)inputStream.Length))];
+
+                while ((bytesRead = await inputStream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                {
+                    await outputStream.WriteAsync(buffer, 0, bytesRead);
+                }
+
+                await outputStream.FlushAsync();
+            }
+        }, new MediaTypeHeaderValue(contentType));
+    }
+
+	async Task OnUploadChunkAsync(InputFileChangeEventArgs e)
+	{
+		var memoryStream = new MemoryStream();
+		await e.File.OpenReadStream().CopyToAsync(memoryStream);
+		var chunks = memoryStream.ToArray().Chunk(32_000);
+		var items = chunks.Count();
+	}
+}
