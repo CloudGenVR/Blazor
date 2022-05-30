@@ -1,0 +1,13 @@
+﻿@using BlazorApp.Components
+@using BlazorApp.Pages
+@{
+    ViewData["Title"] = "Home Page";
+    ViewData["Mio Parametro"] = "ABC123";
+}
+
+
+@*<component type="typeof(TextComponent)" render-mode="WebAssembly" param-Param="@ViewData["Mio Parametro"]" />*@
+
+<component type="typeof(Counter)" render-mode="WebAssembly" />
+
+<component type="typeof(FetchData)" render-mode="WebAssembly" param-CurrentDate="Model.CurrentDate" />
